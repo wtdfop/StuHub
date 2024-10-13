@@ -130,6 +130,18 @@ public class Class {
         return result;
     }
 
+    public Group getRandomGroup() {
+        return getRandomGroups(1).get(0);
+    }
+
+    public ArrayList<Student> getRandomStudentsFromGroup(int index, int count) {
+        return groups.get(index).getRandomStudents(count);
+    }
+
+    public Student getRandomStudentFromGroup(int index) {
+        return groups.get(index).getRandomStudent();
+    }
+
     /**
      * 从此班级中随机抽取若干个学生
      *
@@ -149,5 +161,9 @@ public class Class {
             result.add(s);
         }
         return result;
+    }
+
+    public Student getRandomStudent() {
+        return getRandomStudents(1).get(0);
     }
 }

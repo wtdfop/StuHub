@@ -61,6 +61,11 @@ public class Group {
         this.students = students;
     }
 
+    public Group(int id) {
+        this.id = id;
+        this.students = new ArrayList<>();
+    }
+
     /**
      * 为此小组添加一个学生
      *
@@ -98,5 +103,10 @@ public class Group {
             result.add(s);
         }
         return result;
+    }
+
+    public Student getRandomStudent() {
+//        return students.get((int) (Math.random() * (students.size())));
+        return getRandomStudents(1).get(0);
     }
 }
