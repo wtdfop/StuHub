@@ -1,9 +1,12 @@
 package team.jvav.stuhub.data.model;
 
+import team.jvav.stuhub.data.interfaces.ClassElement;
+import team.jvav.stuhub.data.interfaces.GroupElement;
+
 /**
  * 描述学生的类
  */
-public class Student {
+public class Student implements ClassElement, GroupElement {
     /**
      * 此学生的唯一标识符
      */
@@ -41,5 +44,15 @@ public class Student {
     public Student(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    @Override
+    public boolean inClass(Class c) {
+        return c.containsStudent(this.id);
+    }
+
+    @Override
+    public boolean inGroup(Group group) {
+        return group.containsStudent(this.id);
     }
 }

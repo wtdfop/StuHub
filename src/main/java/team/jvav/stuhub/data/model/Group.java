@@ -1,11 +1,13 @@
 package team.jvav.stuhub.data.model;
 
+import team.jvav.stuhub.data.interfaces.ClassElement;
+
 import java.util.ArrayList;
 
 /**
  * 描述小组的类
  */
-public class Group {
+public class Group implements ClassElement {
     /**
      * 此小组的唯一标识符
      */
@@ -61,8 +63,14 @@ public class Group {
         this.students = students;
     }
 
+    /**
+     * 构造一个最小化的小组对象，不包含任何学生，小组名称默认跟随id
+     *
+     * @param id 此小组的唯一标识符
+     */
     public Group(int id) {
         this.id = id;
+        this.name = "Group " + id;
         this.students = new ArrayList<>();
     }
 
@@ -82,6 +90,32 @@ public class Group {
      */
     public void removeStudent(Student student) {
         students.remove(student);
+    }
+
+    /**
+     * 从此小组中获取指定id的学生
+     *
+     * @param id 要获取的学生的id
+     * @return 目标学生对象。如果此小组中找不到对应id的学生则返回null
+     */
+    public Student getStudent(int id) {
+        for (Student student : students) {
+            if (student.getId() == id) return student;
+        }
+        return null;
+    }
+
+    /**
+     * 判断此小组中是否包含指定id的学生
+     *
+     * @param id 要查找的学生的id
+     * @return true：包含；false：不包含
+     */
+    public boolean containsStudent(int id) {
+        for (Student student : students) {
+            if (student.getId() == id) return true;
+        }
+        return false;
     }
 
     /**
@@ -105,8 +139,18 @@ public class Group {
         return result;
     }
 
+    /**
+     * 从此小组中随机抽取一个学生
+     *
+     * @return 返回此小组中随机的一个学生
+     */
     public Student getRandomStudent() {
 //        return students.get((int) (Math.random() * (students.size())));
         return getRandomStudents(1).get(0);
+    }
+
+    @Override
+    public boolean inClass(Class c) {
+        return c.containsGroup(this.id);
     }
 }

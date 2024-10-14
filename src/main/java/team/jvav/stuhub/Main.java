@@ -2,7 +2,7 @@ package team.jvav.stuhub;
 
 import team.jvav.stuhub.data.model.Class;
 import team.jvav.stuhub.data.model.Group;
-import team.jvav.stuhub.data.model.MainFrame;
+import team.jvav.stuhub.ui.MainFrame;
 import team.jvav.stuhub.data.model.Student;
 
 import java.util.ArrayList;

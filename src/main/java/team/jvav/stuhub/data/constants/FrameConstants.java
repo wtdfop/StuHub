@@ -1,4 +1,4 @@
-package team.jvav.stuhub.constants;
+package team.jvav.stuhub.data.constants;
 
 /**
  * UI窗口常量

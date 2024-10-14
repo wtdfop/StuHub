@@ -1,11 +1,13 @@
-package team.jvav.stuhub.data.model;
+package team.jvav.stuhub.ui;
+
+import team.jvav.stuhub.Main;
+import team.jvav.stuhub.data.model.Group;
+import team.jvav.stuhub.data.model.Student;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import team.jvav.stuhub.Main;
 
 public class MainFrame extends JFrame {
     public JButton drawStudentFromClassButton, drawGroupFromClassButton, drawStudentFromGroupButton;
@@ -66,7 +68,7 @@ public class MainFrame extends JFrame {
 
         drawStudentFromGroupButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Student t = Main.c.getRandomStudentFromGroup(2);
+                Student t = Main.c.getGroup(2).getRandomStudent();
                 if (groupStudentLabel != null) {
                     contentPane.remove(groupStudentLabel);
                 }
