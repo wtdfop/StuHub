@@ -1,11 +1,14 @@
 package team.jvav.stuhub.data.model;
 
+import team.jvav.stuhub.data.interfaces.GroupContainer;
+import team.jvav.stuhub.data.interfaces.StudentContainer;
+
 import java.util.ArrayList;
 
 /**
  * 描述班级的类
  */
-public class Class {
+public class Class implements GroupContainer, StudentContainer {
     /**
      * 此班级的唯一标识符
      */

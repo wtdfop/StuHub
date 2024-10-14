@@ -1,13 +1,14 @@
 package team.jvav.stuhub.data.model;
 
 import team.jvav.stuhub.data.interfaces.ClassElement;
+import team.jvav.stuhub.data.interfaces.StudentContainer;
 
 import java.util.ArrayList;
 
 /**
  * 描述小组的类
  */
-public class Group implements ClassElement {
+public class Group implements ClassElement, StudentContainer {
     /**
      * 此小组的唯一标识符
      */
