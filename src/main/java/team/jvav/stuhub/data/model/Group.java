@@ -20,6 +20,13 @@ public class Group implements ClassElement, StudentContainer {
     private String name;
 
     /**
+     * 此小组的成绩
+     *
+     * @author wtdfop
+     */
+    private int score;
+
+    /**
      * 此小组包含的学生
      */
     private ArrayList<Student> students;
@@ -40,6 +47,46 @@ public class Group implements ClassElement, StudentContainer {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * 获取此小组的成绩
+     *
+     * @return 此小组的成绩
+     * @author wtdfop
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * 设置此小组的成绩
+     *
+     * @param score 要设置的成绩
+     * @author wtdfop
+     */
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    /**
+     * 增加此小组的成绩
+     *
+     * @param score 要增加的成绩
+     * @author wtdfop
+     */
+    public void addScore(int score) {
+        this.score += score;
+    }
+
+    /**
+     * 减少此小组的成绩
+     *
+     * @param score 要减少的成绩
+     * @author wtdfop
+     */
+    public void subScore(int score) {
+        this.score -= score;
     }
 
     /**
