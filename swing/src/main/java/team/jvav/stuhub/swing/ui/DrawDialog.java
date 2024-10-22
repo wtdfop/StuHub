@@ -1,14 +1,15 @@
 package team.jvav.stuhub.swing.ui;
 
-import team.jvav.stuhub.swing.ui.constants.FrameConstants;
+import team.jvav.stuhub.core.data.DAO;
 import team.jvav.stuhub.core.data.model.Group;
 import team.jvav.stuhub.core.data.model.Student;
+import team.jvav.stuhub.core.util.RandomUtil;
+import team.jvav.stuhub.swing.ui.constants.FrameConstants;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import team.jvav.stuhub.swing.Main;
 
 public class DrawDialog extends JDialog {
     /**
@@ -55,7 +56,7 @@ public class DrawDialog extends JDialog {
 
         drawStudentFromClassButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Student t = Main.c.getRandomStudent();
+                Student t = RandomUtil.INSTANCE.getRandomStudentFromClass(1);
                 if (classStudentLabel != null) {
                     contentPane.remove(classStudentLabel);
                 }
@@ -69,7 +70,7 @@ public class DrawDialog extends JDialog {
 
         drawGroupFromClassButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Group t = Main.c.getRandomGroup();
+                Group t = RandomUtil.INSTANCE.getRandomGroupFromClass(1);
                 if (groupLabel != null) {
                     contentPane.remove(groupLabel);
                 }
@@ -83,7 +84,7 @@ public class DrawDialog extends JDialog {
 
         drawStudentFromGroupButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Student t = Main.c.getGroup(2).getRandomStudent();
+                Student t = RandomUtil.INSTANCE.getRandomStudentFromGroup(1, DAO.INSTANCE.getGroupsInClass(1).get(2).getId());
                 if (groupStudentLabel != null) {
                     contentPane.remove(groupStudentLabel);
                 }
