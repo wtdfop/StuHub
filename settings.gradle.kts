@@ -1,6 +1,6 @@
 rootProject.name = "StuHub"
 
-include(":core", ":swing")
+include(":core", ":swing", ":compose")
 
 pluginManagement {
     repositories {
