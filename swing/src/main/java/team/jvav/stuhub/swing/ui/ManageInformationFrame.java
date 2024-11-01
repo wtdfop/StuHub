@@ -1,6 +1,6 @@
 package team.jvav.stuhub.swing.ui;
 
-import team.jvav.stuhub.core.data.constants.FrameConstants;
+import team.jvav.stuhub.swing.ui.constants.FrameConstants;
 
 import javax.swing.*;
 import java.awt.*;

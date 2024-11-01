@@ -1,4 +1,4 @@
-package team.jvav.stuhub.core.data.constants;
+package team.jvav.stuhub.swing.ui.constants;
 
 import java.awt.*;
 

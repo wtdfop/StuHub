@@ -3,7 +3,7 @@ package team.jvav.stuhub.swing.ui;
 import javax.swing.*;
 import java.awt.*;
 
-import team.jvav.stuhub.core.data.constants.FrameConstants;
+import team.jvav.stuhub.swing.ui.constants.FrameConstants;
 
 /**
  * MainFrame类为主窗口，包含主要功能和组件

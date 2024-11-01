@@ -1,7 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("jvm") version "2.0.21"
+    kotlin("jvm")
     id("org.jetbrains.compose") version "1.7.0"
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
 }
@@ -25,7 +25,7 @@ compose.desktop {
         mainClass = "MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Msi)
             packageName = "compose"
             packageVersion = "1.0.0"
         }
