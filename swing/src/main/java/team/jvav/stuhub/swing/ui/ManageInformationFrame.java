@@ -8,13 +8,21 @@ import java.awt.*;
 public class ManageInformationFrame extends JFrame {
     /**
      * 父窗口
+     *
+     * Socket----Netty
+     *
+     * JDBC--MySql----------MongoDb、Redis
+     *
+     * Servlet、Filter、Listener（Tomcat）
+     *
+     *
      */
     JFrame fatherFrame;
 
     /**
      * 跳转至抽取学生对话框的按钮和添加信息对话框的按钮
      */
-    JButton drawButton, appendInformationButton;
+    JButton drawButton, appendInformationButton, returnButton;
 
     /**
      *
@@ -34,27 +42,33 @@ public class ManageInformationFrame extends JFrame {
         fatherFrame.setVisible(false);
 
         // 窗口设置
-        setBounds(FrameConstants.screenSize.height / 2, FrameConstants.screenSize.height / 2, FrameConstants.screenSize.width / 2, FrameConstants.screenSize.height / 2);
+        setBounds(FrameConstants.screenSize.height / 2, FrameConstants.screenSize.height / 4, FrameConstants.screenSize.width / 2, FrameConstants.screenSize.height / 2);
 //        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // 按钮设置
         drawButton = new JButton("Draw");
         appendInformationButton = new JButton("Append Information");
+        returnButton = new JButton("Return");
         drawButton.addActionListener(e -> {
             drawDialog = new DrawDialog(this, true);
         });
         appendInformationButton.addActionListener(e -> {
             appendInformationDialog = new AppendInformationDialog(this, true);
         });
+        returnButton.addActionListener(e -> {
+            setVisible(false);
+            this.fatherFrame.setVisible(true);
+        });
 
         // 布局设置
         setLayout(new BorderLayout());
-        JPanel panel = new JPanel(new GridLayout(1, 2));
+        JPanel panel = new JPanel(new GridLayout(2, 2));
         add(panel, BorderLayout.CENTER);
         panel.add(drawButton);
         panel.add(appendInformationButton);
-        panel.setPreferredSize(new Dimension(FrameConstants.screenSize.width / 60, FrameConstants.screenSize.height / 60));
+        panel.add(returnButton, 2);
+        panel.setSize(new Dimension(FrameConstants.screenSize.width / 60, FrameConstants.screenSize.height / 60));
 
         // 设置窗口可见
         setVisible(true);
