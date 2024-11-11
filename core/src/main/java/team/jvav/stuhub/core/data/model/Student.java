@@ -9,6 +9,16 @@ public class Student {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            Student other = (Student) obj;
+            return this.id == other.id;
+        } catch (ClassCastException e) {
+            return false;
+        }
+    }
+
     public int getId() {
         return id;
     }

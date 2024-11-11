@@ -15,7 +15,7 @@ public class DataSource {
     /**
      * 数据源文件
      */
-    private static final File dataFile = new File("StuHubData/data.json");
+    public static final File dataFile = new File("StuHub/data/data.json");
 
     /**
      * 检查数据源文件是否存在
@@ -29,20 +29,19 @@ public class DataSource {
      *
      * @return 是否成功初始化数据源文件。如果初始化失败或文件已存在，则返回false
      */
-    public static boolean init() {
+    public static boolean init() throws IOException {
         if (!dataFile.exists()) {
             if (!dataFile.getParentFile().mkdirs()) return false;
+            if (!dataFile.createNewFile()) return false;
+            System.out.println("Create new data file at " + dataFile.getAbsolutePath());
             try (FileWriter writer = new FileWriter(dataFile)) {
-                if (!dataFile.createNewFile()) return false;
-                System.out.println("Create new data file at " + dataFile.getAbsolutePath());
                 writer.write("[]");
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;
             }
-        }
-        return false;
+        } else return false;
     }
 
     /**

@@ -13,6 +13,25 @@ public class Class {
         this.students = new ArrayList<>();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            Class other = (Class) obj;
+            return this.id == other.id;
+        } catch (ClassCastException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Class{" +
+                "id=" + id +
+                ", groups=" + groups +
+                ", students=" + students +
+                "}";
+    }
+
     public int getId() {
         return id;
     }
@@ -37,19 +56,79 @@ public class Class {
         this.students = students;
     }
 
-    public void addGroup(Group group) {
-        groups.add(group);
+    public boolean addGroup(Group group) {
+        return groups.add(group);
     }
 
-    public void addStudent(Student student) {
-        students.add(student);
+    public boolean addStudent(Student student) {
+        return students.add(student);
     }
 
-    public void removeGroup(Group group) {
-        groups.remove(group);
+    public boolean removeGroup(int groupId) {
+        for (Group group : groups) {
+            if (group.getId() == groupId) {
+                groups.remove(group);
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void removeStudent(Student student) {
-        students.remove(student);
+    public boolean removeStudent(int studentId) {
+        for (Student student : students) {
+            if (student.getId() == studentId) {
+                students.remove(student);
+                return true;
+            }
+        }
+        for (Group group : groups) {
+            if (group.hasStudent(studentId)) {
+                group.removeStudent(studentId);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasGroup(int groupId) {
+        for (Group group : groups) {
+            if (group.getId() == groupId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasStudent(int studentId) {
+        for (Student student : students) {
+            if (student.getId() == studentId) return true;
+        }
+        for (Group group : groups) {
+            if (group.hasStudent(studentId)) return true;
+        }
+        return false;
+    }
+
+    public Group getGroup(int groupId) {
+        for (Group group : groups) {
+            if (group.getId() == groupId) {
+                return group;
+            }
+        }
+        return null;
+    }
+
+    public Student getStudent(int studentId) {
+        for (Student student : students) {
+            if (student.getId() == studentId) {
+                return student;
+            }
+        }
+        for (Group group : groups) {
+            if (group.hasStudent(studentId)) {
+                return group.getStudent(studentId);
+            }
+        }
+        return null;
     }
 }
