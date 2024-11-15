@@ -13,6 +13,16 @@ public class Group {
         this.students = new ArrayList<>();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            Group other = (Group) obj;
+            return this.id == other.id;
+        } catch (ClassCastException e) {
+            return false;
+        }
+    }
+
     public int getId() {
         return id;
     }
@@ -37,11 +47,35 @@ public class Group {
         this.students = students;
     }
 
-    public void addStudent(Student student) {
-        this.students.add(student);
+    public boolean addStudent(Student student) {
+        return this.students.add(student);
     }
 
-    public void removeStudent(Student student) {
-        this.students.remove(student);
+    public boolean removeStudent(int studentId) {
+        for (Student student : students) {
+            if (student.getId() == studentId) {
+                students.remove(student);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasStudent(int studentId) {
+        for (Student student : students) {
+            if (student.getId() == studentId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Student getStudent(int studentId) {
+        for (Student student : students) {
+            if (student.getId() == studentId) {
+                return student;
+            }
+        }
+        return null;
     }
 }
