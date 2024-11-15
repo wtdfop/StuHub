@@ -1,6 +1,5 @@
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.serialization") version "2.0.21"
+    java
 }
 
 repositories {
@@ -8,5 +7,5 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("com.google.code.gson:gson:2.11.0")
 }

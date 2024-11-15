@@ -56,7 +56,7 @@ public class DrawDialog extends JDialog {
 
         drawStudentFromClassButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Student t = RandomUtil.INSTANCE.getRandomStudentFromClass(1);
+                Student t = RandomUtil.getRandomStudentFromClass(1);
                 if (classStudentLabel != null) {
                     contentPane.remove(classStudentLabel);
                 }
@@ -70,7 +70,7 @@ public class DrawDialog extends JDialog {
 
         drawGroupFromClassButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Group t = RandomUtil.INSTANCE.getRandomGroupFromClass(1);
+                Group t = RandomUtil.getRandomGroupFromClass(1);
                 if (groupLabel != null) {
                     contentPane.remove(groupLabel);
                 }
@@ -84,7 +84,7 @@ public class DrawDialog extends JDialog {
 
         drawStudentFromGroupButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Student t = RandomUtil.INSTANCE.getRandomStudentFromGroup(1, DAO.INSTANCE.getGroupsInClass(1).get(2).getId());
+                Student t = RandomUtil.getRandomStudentFromGroup(1, DAO.getGroupByIDInClass(1, 1).getId());
                 if (groupStudentLabel != null) {
                     contentPane.remove(groupStudentLabel);
                 }
