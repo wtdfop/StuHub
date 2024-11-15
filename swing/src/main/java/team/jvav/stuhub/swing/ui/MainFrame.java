@@ -1,127 +1,168 @@
 package team.jvav.stuhub.swing.ui;
 
+import team.jvav.stuhub.swing.ui.constants.FrameConstants;
+
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * 课堂随机点名系统的主窗口类
- *
- * @author [你的名字]
- * @version 1.0
- * @since 2024-01-01
- */
 public class MainFrame extends JFrame {
-    /** 菜单栏组件 */
-    private JMenuBar menuBar;
 
-    /** 内容面板 */
-    private JPanel contentPanel;
-
-    /** 菜单项文本数组 */
-    private final String[] menuItems = {"文件", "班级管理", "小组管理", "学生管理", "课堂管理"};
-
-    /**
-     * 主窗口构造函数
-     * 初始化窗口属性并设置布局
-     */
     public MainFrame() {
-        setTitle("课堂随机点名系统");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.getContentPane().setLayout(new BorderLayout());
+        initMenus();
 
-        initComponents();
-        layoutComponents();
-
-        setLocationRelativeTo(null);
+        this.setSize(600, 500);
+        this.setVisible(true);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    /**
-     * 初始化窗口组件
-     * 包括菜单栏和内容面板的创建与配置
-     */
-    private void initComponents() {
-        // 初始化菜单栏
-        menuBar = new JMenuBar();
-        for (String menuText : menuItems) {
-            JMenu menu = new JMenu(menuText);
-            // 根据不同的菜单类型添加对应的子菜单项
-            switch (menuText) {
-                case "班级管理":
-                    menu.add(createMenuItem("新增班级"));
-                    menu.add(createMenuItem("班级列表"));
-                    break;
-                case "小组管理":
-                    menu.add(createMenuItem("新增小组"));
-                    menu.add(createMenuItem("小组列表"));
-                    break;
-                case "学生管理":
-                    menu.add(createMenuItem("新增学生"));
-                    menu.add(createMenuItem("学生列表"));
-                    break;
-                case "课堂管理":
-                    menu.add(createMenuItem("随机小组"));
-                    menu.add(createMenuItem("随机学生"));
-                    break;
-                default:
-                    break;
-            }
-            menuBar.add(menu);
-        }
+    public void initMenus() {
+        JMenuBar mainMenu = new JMenuBar();
+        JMenu fileMenu = new JMenu("文件");
+        JMenuItem changeClassMenuItem = new JMenuItem("切换当前班");
+        JMenuItem exportScoreMenuItem = new JMenuItem("导出当前班成绩");
+        JMenuItem exitMenuItem = new JMenuItem("退出");
 
-        // 初始化内容面板
-        contentPanel = new JPanel(new BorderLayout());
-        JLabel promptLabel = new JLabel("请选择班级", SwingConstants.CENTER);
-        promptLabel.setForeground(Color.RED);
-        promptLabel.setFont(new Font("宋体", Font.PLAIN, 24));
-        contentPanel.add(promptLabel, BorderLayout.CENTER);
-    }
+        JMenu classMenu = new JMenu("班级管理");
+        JMenuItem addClassMenuItem = new JMenuItem("新增班级");
+        JMenuItem classListMenuItem = new JMenuItem("班级列表");
 
-    /**
-     * 创建菜单项并添加事件监听器
-     *
-     * @param text 菜单项显示的文本
-     * @return 创建好的菜单项
-     */
-    private JMenuItem createMenuItem(String text) {
-        JMenuItem menuItem = new JMenuItem(text);
-        menuItem.addActionListener(e -> {
-            if ("新增班级".equals(text)) {
-                showAddClassDialog();
-            }
-            // 其他菜单项的处理逻辑可以在这里添加
+        JMenu groupMenu = new JMenu("小组管理");
+        JMenuItem addGroupMenuItem = new JMenuItem("新增小组");
+        JMenuItem groupListMenuItem = new JMenuItem("小组列表");
+
+        JMenu studentMenu = new JMenu("学生管理");
+        JMenuItem addStudentMenuItem = new JMenuItem("新增学生");
+        JMenuItem studentListMenuItem = new JMenuItem("学生列表");
+
+        JMenu onClassMenu = new JMenu("课堂管理");
+        JMenuItem randomGroupMenuItem = new JMenuItem("随机小组");
+        JMenuItem randomStudentMenuItem = new JMenuItem("随机学生");
+
+        this.getContentPane().add(mainMenu, BorderLayout.NORTH);
+        mainMenu.add(fileMenu);
+        mainMenu.add(classMenu);
+        mainMenu.add(groupMenu);
+        mainMenu.add(studentMenu);
+        mainMenu.add(onClassMenu);
+        fileMenu.add(changeClassMenuItem);
+        fileMenu.add(exportScoreMenuItem);
+        fileMenu.add(exitMenuItem);
+        classMenu.add(addClassMenuItem);
+        classMenu.add(classListMenuItem);
+        groupMenu.add(addGroupMenuItem);
+        groupMenu.add(groupListMenuItem);
+        studentMenu.add(addStudentMenuItem);
+        studentMenu.add(studentListMenuItem);
+        onClassMenu.add(randomGroupMenuItem);
+        onClassMenu.add(randomStudentMenuItem);
+        // 添加菜单事件
+        // 切换班级
+        changeClassMenuItem.addActionListener(e -> {
+            this.getContentPane().removeAll();
+            initMenus();
+            ChangeClassPanel changeClassPanel = new ChangeClassPanel(this);
+            this.getContentPane().add(changeClassPanel, BorderLayout.CENTER);
+            this.getContentPane().validate();
         });
-        return menuItem;
-    }
-
-    /**
-     * 设置窗口组件的布局
-     */
-    private void layoutComponents() {
-        setJMenuBar(menuBar);
-        add(contentPanel);
-    }
-
-    /**
-     * 显示新增班级对话框
-     */
-    private void showAddClassDialog() {
-        AddClassDialog dialog = new AddClassDialog(this);
-        dialog.setVisible(true);
-    }
-
-    /**
-     * 程序入口方法
-     *
-     * @param args 命令行参数
-     */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception e) {
-                e.printStackTrace();
+        // 导出成绩
+        exportScoreMenuItem.addActionListener(e -> {
+            if (FrameConstants.CLASS_PATH.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // TODO 导出
+                JOptionPane.showMessageDialog(this, "成绩已导出", "", JOptionPane.INFORMATION_MESSAGE);
             }
-            new MainFrame().setVisible(true);
+        });
+        // 退出程序
+        exitMenuItem.addActionListener(e -> System.exit(0));
+        // 新增班级
+        addClassMenuItem.addActionListener(e -> {
+            this.getContentPane().removeAll();
+            initMenus();
+            ClassAddPanel classAddPanel = new ClassAddPanel();
+            this.getContentPane().add(classAddPanel, BorderLayout.CENTER);
+            this.getContentPane().validate();
+        });
+        // 班级列表
+        classListMenuItem.addActionListener(e -> {
+            this.getContentPane().removeAll();
+            initMenus();
+            ClassListPanel classListPanel = new ClassListPanel();
+            this.getContentPane().add(classListPanel, BorderLayout.CENTER);
+            this.getContentPane().validate();
+        });
+        // 新增小组
+        addGroupMenuItem.addActionListener(e -> {
+            if (FrameConstants.CLASS_PATH.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                this.getContentPane().removeAll();
+                initMenus();
+                this.getContentPane().add(new GroupAddPanel(), BorderLayout.CENTER);
+                this.getContentPane().repaint();
+                this.getContentPane().validate();
+            }
+        });
+        // 小组列表
+        groupListMenuItem.addActionListener(e -> {
+            if (FrameConstants.CLASS_PATH.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                this.getContentPane().removeAll();
+                initMenus();
+                this.getContentPane().add(new GroupListPanel(), BorderLayout.CENTER);
+                this.getContentPane().repaint();
+                this.getContentPane().validate();
+            }
+        });
+        // 新增学生
+        addStudentMenuItem.addActionListener(e -> {
+            if (FrameConstants.CLASS_PATH.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                this.getContentPane().removeAll();
+                initMenus();
+                this.getContentPane().add(new StudentAddPanel(), BorderLayout.CENTER);
+                this.getContentPane().repaint();
+                this.getContentPane().validate();
+            }
+        });
+        // 学生列表
+        studentListMenuItem.addActionListener(e -> {
+            if (FrameConstants.CLASS_PATH.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                this.getContentPane().removeAll();
+                initMenus();
+                this.getContentPane().add(new StudentListPanel(), BorderLayout.CENTER);
+                this.getContentPane().repaint();
+                this.getContentPane().validate();
+            }
+        });
+        // 随机抽取小组
+        randomGroupMenuItem.addActionListener(e -> {
+            if (FrameConstants.CLASS_PATH.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                this.getContentPane().removeAll();
+                initMenus();
+                this.getContentPane().add(new RandomGroupPanel(), BorderLayout.CENTER);
+                this.getContentPane().repaint();
+                this.getContentPane().validate();
+            }
+        });
+        // 随机抽取学生
+        randomStudentMenuItem.addActionListener(e -> {
+            if (FrameConstants.CLASS_PATH.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                this.getContentPane().removeAll();
+                initMenus();
+                this.getContentPane().add(new RandomStudentPanel(), BorderLayout.CENTER);
+                this.getContentPane().repaint();
+                this.getContentPane().validate();
+            }
         });
     }
 }
