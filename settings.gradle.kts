@@ -1,11 +1,10 @@
 rootProject.name = "StuHub"
 
-include(":core", ":swing", ":compose")
+include(":core", ":swing")
 
 pluginManagement {
     repositories {
         gradlePluginPortal()
         mavenCentral()
-        google()
     }
 }
