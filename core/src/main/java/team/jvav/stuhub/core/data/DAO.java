@@ -32,11 +32,11 @@ public class DAO {
      * @param classID 班级ID
      * @return 是否成功创建并保存。当班级已存在时不再重复创建并返回false。
      */
-    public static boolean createClass(int classID) {
+    public static boolean createClass(int classID, String className) {
         for (Class c : classes) {
             if (c.getId() == classID) return false;
         }
-        return classes.add(new Class(classID)) && saveData();
+        return classes.add(new Class(classID, className)) && saveData();
     }
 
     /**

@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public class Class {
     private int id;
+    private String name;
     private ArrayList<Group> groups;
     private ArrayList<Student> students;
 
-    public Class(int id) {
+    public Class(int id, String name) {
         this.id = id;
+        this.name = name;
         this.groups = new ArrayList<>();
         this.students = new ArrayList<>();
     }
@@ -27,6 +29,7 @@ public class Class {
     public String toString() {
         return "Class{" +
                 "id=" + id +
+                ", name=" + name +
                 ", groups=" + groups +
                 ", students=" + students +
                 "}";
@@ -38,6 +41,14 @@ public class Class {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public ArrayList<Group> getGroups() {
