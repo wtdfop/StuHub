@@ -5,6 +5,7 @@ import team.jvav.stuhub.core.data.model.Group;
 import team.jvav.stuhub.core.data.model.Student;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DAO类，负责管理数据源并提供数据操作接口。
@@ -65,6 +66,13 @@ public class DAO {
             if (c.getId() == classID) return c;
         }
         return null;
+    }
+
+    /**
+     * 获取所有班级。
+     */
+    public static List<Class> getAllClasses() {
+        return classes;
     }
 
     /**
