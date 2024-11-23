@@ -5,7 +5,15 @@ import java.util.ArrayList;
 public class Class {
     private int id;
     private String name;
+
+    /**
+     * 班级的小组列表。
+     */
     private ArrayList<Group> groups;
+
+    /**
+     * 班级的学生列表。此学生列表只包含游离于小组之外的学生。
+     */
     private ArrayList<Student> students;
 
     public Class(int id, String name) {
