@@ -1,10 +1,12 @@
 package team.jvav.stuhub.swing.ui.constants;
 
+import team.jvav.stuhub.core.data.model.Group;
+import team.jvav.stuhub.core.data.model.Student;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import team.jvav.stuhub.core.data.model.*;
 
 /**
  * UI窗口常量
@@ -28,4 +30,7 @@ public class FrameConstants {
     public static final int LEAVE_SCORE = 2;
     // 回答问题正确加3分
     public static final int ANSWER_QUESTION = 3;
+
+    // 当前班级ID。-1表示未选择班级
+    public static int currentClassId = -1;
 }

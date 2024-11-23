@@ -51,7 +51,7 @@ public class Class {
         this.name = name;
     }
 
-    public ArrayList<Group> getGroups() {
+    public ArrayList<Group> getAllGroups() {
         return groups;
     }
 

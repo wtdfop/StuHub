@@ -69,7 +69,7 @@ public class DAO {
     }
 
     /**
-     * 获取所有班级。
+     * 获取所有班级。没有班级时返回空列表。
      */
     public static List<Class> getAllClasses() {
         return classes;
