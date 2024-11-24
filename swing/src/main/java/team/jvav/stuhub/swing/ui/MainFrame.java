@@ -94,7 +94,7 @@ public class MainFrame extends JFrame {
         });
         // 新增小组
         addGroupMenuItem.addActionListener(e -> {
-            if (FrameConstants.CLASS_PATH.isEmpty()) {
+            if (FrameConstants.currentClassId == -1) {
                 JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 this.getContentPane().removeAll();
@@ -106,7 +106,7 @@ public class MainFrame extends JFrame {
         });
         // 小组列表
         groupListMenuItem.addActionListener(e -> {
-            if (FrameConstants.CLASS_PATH.isEmpty()) {
+            if (FrameConstants.currentClassId == -1) {
                 JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 this.getContentPane().removeAll();

@@ -164,11 +164,12 @@ public class DAO {
     /**
      * 在指定班级中创建小组。
      *
-     * @return 是否成功创建并保存。当班级不存在时不进行任何操作并返回false。
+     * @return 是否成功创建并保存。当班级不存在或小组已存在时不进行任何操作并返回false。
      */
     public static boolean createGroupInClass(int classID, int groupID, String groupName) {
         Class c = getClassByID(classID);
         if (c == null) return false;
+        if (c.hasGroup(groupID)) return false;
         return c.addGroup(new Group(groupID, groupName)) && updateClass(c);
     }
 
