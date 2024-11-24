@@ -99,7 +99,7 @@ public class DAO {
     public static boolean createStudentInClass(int classID, int studentID, String studentName) {
         Class c = getClassByID(classID);
         if (c == null) return false;
-        return c.addStudent(new Student(studentID, studentName)) && updateClass(c);
+        return c.addDetachedStudent(new Student(studentID, studentName)) && updateClass(c);
     }
 
     /**
@@ -158,7 +158,16 @@ public class DAO {
     public static boolean updateStudentInClass(int classID, Student student) {
         Class c = getClassByID(classID);
         if (c == null) return false;
-        return c.removeStudent(student.getId()) && c.addStudent(student) && updateClass(c);
+        if (c.hasDetachedStudent(student.getId())) {
+            return c.removeStudent(student.getId()) && c.addDetachedStudent(student) && updateClass(c);
+        }
+        if (c.hasStudentInAnyGroup(student.getId()) != -1) {
+            Group g = c.getGroup(c.hasStudentInAnyGroup(student.getId()));
+            g.removeStudent(student.getId());
+            g.addStudent(student);
+            return updateGroupInClass(classID, g);
+        }
+        return false;
     }
 
     /**
@@ -235,6 +244,6 @@ public class DAO {
         Group g = getGroupByIDInClass(classID, groupID);
         if (g == null) return false;
         Student s = g.getStudent(studentID);
-        return s != null && g.removeStudent(studentID) && c.addStudent(s) && updateGroupInClass(classID, g);
+        return s != null && g.removeStudent(studentID) && c.addDetachedStudent(s) && updateGroupInClass(classID, g);
     }
 }

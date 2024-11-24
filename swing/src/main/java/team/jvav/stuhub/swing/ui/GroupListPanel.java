@@ -88,6 +88,8 @@ public class GroupListPanel extends JPanel {
             } else {
                 JOptionPane.showMessageDialog(this, "修改失败", "", JOptionPane.ERROR_MESSAGE);
             }
+            txtName.setText("组名");
+            txtScore.setText("分数");
         });
 
         btnDelete.addActionListener(e -> {
@@ -102,6 +104,8 @@ public class GroupListPanel extends JPanel {
             } else {
                 JOptionPane.showMessageDialog(this, "删除失败", "", JOptionPane.ERROR_MESSAGE);
             }
+            txtName.setText("组名");
+            txtScore.setText("分数");
         });
     }
 
