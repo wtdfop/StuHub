@@ -130,7 +130,7 @@ public class MainFrame extends JFrame {
         });
         // 学生列表
         studentListMenuItem.addActionListener(e -> {
-            if (FrameConstants.CLASS_PATH.isEmpty()) {
+            if (FrameConstants.currentClassId == -1) {
                 JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 this.getContentPane().removeAll();

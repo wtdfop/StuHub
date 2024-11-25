@@ -3,10 +3,12 @@ package team.jvav.stuhub.core.data.model;
 public class Student {
     private int id;
     private String name;
+    private int belongingGroupId;
 
-    public Student(int id, String name) {
+    public Student(int id, String name, int belongingGroupId) {
         this.id = id;
         this.name = name;
+        this.belongingGroupId = belongingGroupId;
     }
 
     @Override
@@ -33,5 +35,13 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getBelongingGroupId() {
+        return belongingGroupId;
+    }
+
+    public void setBelongingGroupId(int belongingGroupId) {
+        this.belongingGroupId = belongingGroupId;
     }
 }

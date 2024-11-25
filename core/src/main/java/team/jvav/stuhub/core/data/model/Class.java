@@ -11,16 +11,10 @@ public class Class {
      */
     private ArrayList<Group> groups;
 
-    /**
-     * 班级的学生列表。此学生列表只包含游离于小组之外的学生。
-     */
-    private ArrayList<Student> detachedStudents;
-
     public Class(int id, String name) {
         this.id = id;
         this.name = name;
         this.groups = new ArrayList<>();
-        this.detachedStudents = new ArrayList<>();
     }
 
     @Override
@@ -39,7 +33,6 @@ public class Class {
                 "id=" + id +
                 ", name=" + name +
                 ", groups=" + groups +
-                ", detachedStudents=" + detachedStudents +
                 "}";
     }
 
@@ -67,29 +60,16 @@ public class Class {
         this.groups = groups;
     }
 
-    public ArrayList<Student> getDetachedStudents() {
-        return detachedStudents;
-    }
-
     public ArrayList<Student> getAllStudents() {
-        ArrayList<Student> allStudents = new ArrayList<>(detachedStudents);
+        ArrayList<Student> allStudents = new ArrayList<>();
         for (Group group : groups) {
             allStudents.addAll(group.getStudents());
         }
-        allStudents.addAll(detachedStudents);
         return allStudents;
-    }
-
-    public void setDetachedStudents(ArrayList<Student> detachedStudents) {
-        this.detachedStudents = detachedStudents;
     }
 
     public boolean addGroup(Group group) {
         return groups.add(group);
-    }
-
-    public boolean addDetachedStudent(Student student) {
-        return detachedStudents.add(student);
     }
 
     public boolean removeGroup(int groupId) {
@@ -103,12 +83,6 @@ public class Class {
     }
 
     public boolean removeStudent(int studentId) {
-        for (Student student : detachedStudents) {
-            if (student.getId() == studentId) {
-                detachedStudents.remove(student);
-                return true;
-            }
-        }
         for (Group group : groups) {
             if (group.hasStudent(studentId)) {
                 group.removeStudent(studentId);
@@ -129,13 +103,6 @@ public class Class {
 
     public boolean hasStudent(int studentId) {
         for (Student student : getAllStudents()) {
-            if (student.getId() == studentId) return true;
-        }
-        return false;
-    }
-
-    public boolean hasDetachedStudent(int studentId) {
-        for (Student student : detachedStudents) {
             if (student.getId() == studentId) return true;
         }
         return false;
