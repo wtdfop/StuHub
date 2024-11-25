@@ -25,6 +25,11 @@ public class Group {
         }
     }
 
+    @Override
+    public String toString() {
+        return this.name + " (" + this.id + ")";
+    }
+
     public int getId() {
         return id;
     }
