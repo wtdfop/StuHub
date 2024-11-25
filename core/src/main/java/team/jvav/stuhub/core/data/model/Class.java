@@ -5,14 +5,16 @@ import java.util.ArrayList;
 public class Class {
     private int id;
     private String name;
+
+    /**
+     * 班级的小组列表。
+     */
     private ArrayList<Group> groups;
-    private ArrayList<Student> students;
 
     public Class(int id, String name) {
         this.id = id;
         this.name = name;
         this.groups = new ArrayList<>();
-        this.students = new ArrayList<>();
     }
 
     @Override
@@ -31,7 +33,6 @@ public class Class {
                 "id=" + id +
                 ", name=" + name +
                 ", groups=" + groups +
-                ", students=" + students +
                 "}";
     }
 
@@ -51,7 +52,7 @@ public class Class {
         this.name = name;
     }
 
-    public ArrayList<Group> getGroups() {
+    public ArrayList<Group> getAllGroups() {
         return groups;
     }
 
@@ -59,20 +60,16 @@ public class Class {
         this.groups = groups;
     }
 
-    public ArrayList<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(ArrayList<Student> students) {
-        this.students = students;
+    public ArrayList<Student> getAllStudents() {
+        ArrayList<Student> allStudents = new ArrayList<>();
+        for (Group group : groups) {
+            allStudents.addAll(group.getStudents());
+        }
+        return allStudents;
     }
 
     public boolean addGroup(Group group) {
         return groups.add(group);
-    }
-
-    public boolean addStudent(Student student) {
-        return students.add(student);
     }
 
     public boolean removeGroup(int groupId) {
@@ -86,12 +83,6 @@ public class Class {
     }
 
     public boolean removeStudent(int studentId) {
-        for (Student student : students) {
-            if (student.getId() == studentId) {
-                students.remove(student);
-                return true;
-            }
-        }
         for (Group group : groups) {
             if (group.hasStudent(studentId)) {
                 group.removeStudent(studentId);
@@ -111,13 +102,24 @@ public class Class {
     }
 
     public boolean hasStudent(int studentId) {
-        for (Student student : students) {
+        for (Student student : getAllStudents()) {
             if (student.getId() == studentId) return true;
         }
-        for (Group group : groups) {
-            if (group.hasStudent(studentId)) return true;
-        }
         return false;
+    }
+
+    /**
+     * 判断指定学生是否在任何小组中。
+     *
+     * @return 小组 ID，如果指定学生不在任何小组中，则返回 -1。
+     */
+    public int hasStudentInAnyGroup(int studentId) {
+        for (Group group : groups) {
+            if (group.hasStudent(studentId)) {
+                return group.getId();
+            }
+        }
+        return -1;
     }
 
     public Group getGroup(int groupId) {
@@ -130,14 +132,9 @@ public class Class {
     }
 
     public Student getStudent(int studentId) {
-        for (Student student : students) {
+        for (Student student : getAllStudents()) {
             if (student.getId() == studentId) {
                 return student;
-            }
-        }
-        for (Group group : groups) {
-            if (group.hasStudent(studentId)) {
-                return group.getStudent(studentId);
             }
         }
         return null;

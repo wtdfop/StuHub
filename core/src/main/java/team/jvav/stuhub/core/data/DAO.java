@@ -69,7 +69,7 @@ public class DAO {
     }
 
     /**
-     * 获取所有班级。
+     * 获取所有班级。没有班级时返回空列表。
      */
     public static List<Class> getAllClasses() {
         return classes;
@@ -92,28 +92,6 @@ public class DAO {
     }
 
     /**
-     * 在指定班级中创建学生。
-     *
-     * @return 是否成功创建并保存。当班级不存在时不进行任何操作并返回false。
-     */
-    public static boolean createStudentInClass(int classID, int studentID, String studentName) {
-        Class c = getClassByID(classID);
-        if (c == null) return false;
-        return c.addStudent(new Student(studentID, studentName)) && updateClass(c);
-    }
-
-    /**
-     * 删除指定班级中的学生。
-     *
-     * @return 是否成功删除并保存。当班级不存在时不进行任何操作并返回false。
-     */
-    public static boolean deleteStudentInClass(int classID, int studentID) {
-        Class c = getClassByID(classID);
-        if (c == null) return false;
-        return c.removeStudent(studentID) && updateClass(c);
-    }
-
-    /**
      * 在指定班级的指定小组中创建学生。
      *
      * @return 是否成功创建并保存。当班级或小组不存在时不进行任何操作并返回false。
@@ -123,13 +101,13 @@ public class DAO {
         if (c == null) return false;
         Group g = getGroupByIDInClass(classID, groupID);
         if (g == null) return false;
-        return g.addStudent(new Student(studentID, studentName)) && updateGroupInClass(classID, g);
+        return g.addStudent(new Student(studentID, studentName, groupID)) && updateGroupInClass(classID, g);
     }
 
     /**
-     * 删除指定班级的指定小组中的学生。
+     * 删除指定班级的指定小组中的指定学生。
      *
-     * @return 是否成功删除并保存。当班级或小组不存在时不进行任何操作并返回false。
+     * @return 是否成功删除并保存。当班级或小组不存在或学生不存在时不进行任何操作并返回false。
      */
     public static boolean deleteStudentInGroup(int classID, int groupID, int studentID) {
         Class c = getClassByID(classID);
@@ -140,35 +118,98 @@ public class DAO {
     }
 
     /**
-     * 获取指定班级的指定学生。
+     * 获取指定班级的指定小组中的指定学生。
      *
-     * @return 学生对象。若不存在则返回null。
+     * @return 学生对象或null
      */
-    public static Student getStudentByIDInClass(int classID, int studentID) {
+    public static Student getStudentInGroup(int classID, int groupID, int studentID) {
         Class c = getClassByID(classID);
         if (c == null) return null;
-        return c.getStudent(studentID);
+        Group g = getGroupByIDInClass(classID, groupID);
+        if (g == null) return null;
+        return g.getStudent(studentID);
     }
 
     /**
-     * 更新指定班级的指定学生。
+     * 获取指定班级中的指定学生。
      *
-     * @return 是否成功更新并保存。当班级或学生不存在时不进行任何操作并返回false。
+     * @return 学生对象或null
      */
-    public static boolean updateStudentInClass(int classID, Student student) {
+    public static Student getStudentInClass(int classID, int studentID) {
+        Class c = getClassByID(classID);
+        if (c == null) return null;
+        for (Group g : c.getAllGroups()) {
+            if (g.hasStudent(studentID)) return g.getStudent(studentID);
+        }
+        return null;
+    }
+
+    /**
+     * 更新指定班级的指定小组中的指定学生。
+     *
+     * @return 是否成功更新并保存。当班级或小组不存在或学生不存在时不进行任何操作并返回false。
+     */
+    public static boolean updateStudentInGroup(int classID, int groupID, int studentId, String studentName) {
         Class c = getClassByID(classID);
         if (c == null) return false;
-        return c.removeStudent(student.getId()) && c.addStudent(student) && updateClass(c);
+        Group g = getGroupByIDInClass(classID, groupID);
+        if (g == null) return false;
+        if (g.hasStudent(studentId)) {
+            g.removeStudent(studentId);
+            g.addStudent(new Student(studentId, studentName, groupID));
+            return updateGroupInClass(classID, g);
+        } else return false;
+    }
+
+    /**
+     * 更新指定班级的的指定学生。
+     *
+     * @return 是否成功更新并保存。当班级不存在或学生不存在时不进行任何操作并返回false。
+     */
+    public static boolean updateStudentInClass(int classID, int studentID, String studentName) {
+        Class c = getClassByID(classID);
+        if (c == null) return false;
+        for (Group g : c.getAllGroups()) {
+            if (g.hasStudent(studentID)) {
+                g.removeStudent(studentID);
+                g.addStudent(new Student(studentID, studentName, g.getId()));
+                return updateGroupInClass(classID, g);
+            }
+        }
+        System.out.println("Student not found in any group in class " + classID);
+        return false;
+    }
+
+    /**
+     * 将指定班级中指定小组的指定学生移动到另一个小组
+     * @return 是否成功移动并保存。当班级或小组不存在或学生不存在或学生已在目标小组时不进行任何操作并返回false。
+     */
+    public static boolean moveStudentToGroup(int classID, int studentID, int oldGroupID, int newGroupID) {
+        if (oldGroupID == newGroupID) {
+            System.out.println("oldGroupID and newGroupID cannot be the same");
+            return false;
+        }
+        Student s = getStudentInGroup(classID, oldGroupID, studentID);
+        Group oldG = getGroupByIDInClass(classID, oldGroupID);
+        Group newG = getGroupByIDInClass(classID, newGroupID);
+        if (s == null || oldG == null || newG == null || !oldG.hasStudent(studentID)) {
+            System.out.println("Student or group not found or student already in new group");
+            return false;
+        }
+        oldG.removeStudent(studentID);
+        newG.addStudent(new Student(studentID, s.getName(), newGroupID));
+        return updateGroupInClass(classID, oldG) && updateGroupInClass(classID, newG);
     }
 
     /**
      * 在指定班级中创建小组。
      *
-     * @return 是否成功创建并保存。当班级不存在时不进行任何操作并返回false。
+     * @return 是否成功创建并保存。当班级不存在或小组已存在时不进行任何操作并返回false。
      */
     public static boolean createGroupInClass(int classID, int groupID, String groupName) {
         Class c = getClassByID(classID);
         if (c == null) return false;
+        if (c.hasGroup(groupID)) return false;
         return c.addGroup(new Group(groupID, groupName)) && updateClass(c);
     }
 
@@ -203,37 +244,5 @@ public class DAO {
         Class c = getClassByID(classID);
         if (c == null) return false;
         return c.removeGroup(group.getId()) && c.addGroup(group) && updateClass(c);
-    }
-
-    /**
-     * 将指定班级的指定学生添加到指定小组。
-     *
-     * @return 是否成功添加并保存。当班级不存在、学生不在此班级、小组不在此班级、学生已在小组中时不进行任何操作并返回false。
-     */
-    public static boolean addStudentToGroup(int classID, int studentID, int groupID) {
-        Class c = getClassByID(classID);
-        if (c == null) return false;
-        Group g = getGroupByIDInClass(classID, groupID);
-        if (g == null) return false;
-        Student s = getStudentByIDInClass(classID, studentID);
-        if (s == null) return false;
-        if (!c.hasGroup(groupID) || !c.hasStudent(studentID) || g.hasStudent(studentID)) {
-            return false;
-        }
-        return c.removeStudent(studentID) && g.addStudent(s) && updateGroupInClass(classID, g);
-    }
-
-    /**
-     * 将指定班级的指定学生从指定小组中移除。
-     *
-     * @return 是否成功移除并保存。当班级不存在、学生不在此班级、小组不在此班级、学生不在此小组中时不进行任何操作并返回false。
-     */
-    public static boolean removeStudentFromGroup(int classID, int studentID, int groupID) {
-        Class c = getClassByID(classID);
-        if (c == null) return false;
-        Group g = getGroupByIDInClass(classID, groupID);
-        if (g == null) return false;
-        Student s = g.getStudent(studentID);
-        return s != null && g.removeStudent(studentID) && c.addStudent(s) && updateGroupInClass(classID, g);
     }
 }

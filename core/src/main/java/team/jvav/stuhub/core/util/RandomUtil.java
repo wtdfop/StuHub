@@ -15,11 +15,8 @@ public class RandomUtil {
      */
     public static Student getRandomStudentFromClass(int classId) {
         Class c = DAO.getClassByID(classId);
-        if (c == null || c.getStudents().isEmpty()) return null;
-        ArrayList<Student> students = c.getStudents();
-        for (Group g : c.getGroups()) {
-            students.addAll(g.getStudents());
-        }
+        if (c == null || c.getAllStudents().isEmpty()) return null;
+        ArrayList<Student> students = c.getAllStudents();
         return students.get((int) (Math.random() * students.size()));
     }
 
@@ -30,8 +27,8 @@ public class RandomUtil {
      */
     public static Group getRandomGroupFromClass(int classId) {
         Class c = DAO.getClassByID(classId);
-        if (c == null || c.getGroups().isEmpty()) return null;
-        ArrayList<Group> groups = c.getGroups();
+        if (c == null || c.getAllGroups().isEmpty()) return null;
+        ArrayList<Group> groups = c.getAllGroups();
         return groups.get((int) (Math.random() * groups.size()));
     }
 

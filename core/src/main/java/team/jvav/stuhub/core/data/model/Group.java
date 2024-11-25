@@ -6,11 +6,13 @@ public class Group {
     private int id;
     private String name;
     private ArrayList<Student> students;
+    private int score;
 
     public Group(int id, String name) {
         this.id = id;
         this.name = name;
         this.students = new ArrayList<>();
+        this.score = 0;
     }
 
     @Override
@@ -21,6 +23,11 @@ public class Group {
         } catch (ClassCastException e) {
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " (" + this.id + ")";
     }
 
     public int getId() {
@@ -77,5 +84,25 @@ public class Group {
             }
         }
         return null;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void clearScore() {
+        this.score = 0;
+    }
+
+    public void addScore(int score) {
+        this.score += score;
+    }
+
+    public void subScore(int score) {
+        this.score -= score;
     }
 }
