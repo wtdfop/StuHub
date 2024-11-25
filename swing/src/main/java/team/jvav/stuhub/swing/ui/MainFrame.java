@@ -10,8 +10,11 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         this.getContentPane().setLayout(new BorderLayout());
+        this.getContentPane().removeAll();
         initMenus();
-
+        ChangeClassPanel changeClassPanel = new ChangeClassPanel(this);
+        this.getContentPane().add(changeClassPanel, BorderLayout.CENTER);
+        this.getContentPane().validate();
         this.setSize(600, 500);
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -155,7 +158,7 @@ public class MainFrame extends JFrame {
         });
         // 随机抽取学生
         randomStudentMenuItem.addActionListener(e -> {
-            if (FrameConstants.CLASS_PATH.isEmpty()) {
+            if (FrameConstants.currentClassId == -1) {
                 JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 this.getContentPane().removeAll();
