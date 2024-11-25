@@ -1,5 +1,6 @@
 package team.jvav.stuhub.swing.ui;
 
+import team.jvav.stuhub.core.data.DAO;
 import team.jvav.stuhub.swing.ui.constants.FrameConstants;
 
 import javax.swing.*;
@@ -142,7 +143,7 @@ public class MainFrame extends JFrame {
         });
         // 随机抽取小组
         randomGroupMenuItem.addActionListener(e -> {
-            if (FrameConstants.CLASS_PATH.isEmpty()) {
+            if (DAO.getAllClasses().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 this.getContentPane().removeAll();

@@ -245,4 +245,10 @@ public class DAO {
         if (c == null) return false;
         return c.removeGroup(group.getId()) && c.addGroup(group) && updateClass(c);
     }
+
+    public static ArrayList<Group> getGroupByClassId(int classId) {
+        Class c = getClassByID(classId);
+        if (c == null) return null;
+        return c.getAllGroups();
+    }
 }

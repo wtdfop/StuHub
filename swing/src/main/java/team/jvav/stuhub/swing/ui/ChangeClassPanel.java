@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ChangeClassPanel extends JScrollPane {
     JLabel infoLbl = new JLabel();
+    JButton okBtn = new JButton("确定");
 
     public ChangeClassPanel(MainFrame mainFrame) {
         this.setBorder(new TitledBorder(new EtchedBorder(), "新选择班级"));
@@ -33,8 +34,15 @@ public class ChangeClassPanel extends JScrollPane {
                 classRadio.setBounds(x, y, 200, 30);
                 y += 40;
             }
+            this.add(okBtn);
+            okBtn.setBounds(x, 800, 100, 30);
+
             this.repaint();
             this.validate();
+
+            okBtn.addActionListener(e -> {
+                JOptionPane.showMessageDialog(this, "已选择班级：" + FrameConstants.currentClassId, "", JOptionPane.INFORMATION_MESSAGE);
+            });
         }
     }
 }

@@ -1,4 +1,7 @@
 package team.jvav.stuhub.swing.ui;
+import team.jvav.stuhub.core.data.model.Group;
+import team.jvav.stuhub.core.data.model.Student;
+import team.jvav.stuhub.core.util.RandomUtil;
 import team.jvav.stuhub.swing.ui.constants.FrameConstants;
 
 import javax.swing.*;
@@ -58,26 +61,15 @@ public class RandomGroupPanel extends JPanel {
         // 添加按钮功能
         // 随机小组
         btnChooseGroup.addActionListener(e -> {
-            if (e.getActionCommand().equals("停")) {
-                btnChooseGroup.setText("随机小组");
-
-            } else {
-
+            Group group = RandomUtil.getRandomGroupFromClass(FrameConstants.currentClassId);
+            if (group == null) {
+                JOptionPane.showMessageDialog(this, "当前班级无小组", "", JOptionPane.INFORMATION_MESSAGE);
             }
+            txtGroup.setText(group.getName());
         });
         // 随机学生
         btnChooseStudent.addActionListener(e -> {
-            if (txtGroup.getText() == null || txtGroup.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "请先随机抽取小组", "", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                if (e.getActionCommand().equals("停")) {
-                    btnChooseStudent.setText("随机学生");
-
-                } else {
-                    btnChooseStudent.setText("停");
-
-                }
-            }
+            Student student = RandomUtil.getRandomStudentFromGroup(FrameConstants.currentClassId, Integer.parseInt(txtGroup.getText().split("(")[1]));
         });
         // TODO 缺勤
         btnAbsence.addActionListener(e -> {
@@ -107,7 +99,6 @@ public class RandomGroupPanel extends JPanel {
                 JOptionPane.showMessageDialog(this, "请填写分数", "", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
-
         });
     }
 }
