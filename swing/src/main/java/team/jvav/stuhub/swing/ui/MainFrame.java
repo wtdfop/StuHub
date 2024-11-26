@@ -1,6 +1,7 @@
 package team.jvav.stuhub.swing.ui;
 
 import team.jvav.stuhub.core.data.DAO;
+import team.jvav.stuhub.core.util.ExportScoreUtil;
 import team.jvav.stuhub.swing.ui.constants.FrameConstants;
 
 import javax.swing.*;
@@ -71,10 +72,14 @@ public class MainFrame extends JFrame {
         });
         // 导出成绩
         exportScoreMenuItem.addActionListener(e -> {
-            if (FrameConstants.CLASS_PATH.isEmpty()) {
+            if (FrameConstants.currentClassId == -1) {
                 JOptionPane.showMessageDialog(this, "请先选择班级", "", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                // TODO 导出
+                String path = JOptionPane.showInputDialog(this, "请输入保存路径", "");
+                if (path == null || path.isEmpty()) {
+                    path = "C:/users";
+                }
+                ExportScoreUtil.saveAsExcel(FrameConstants.currentClassId, path + ".xls");
                 JOptionPane.showMessageDialog(this, "成绩已导出", "", JOptionPane.INFORMATION_MESSAGE);
             }
         });
