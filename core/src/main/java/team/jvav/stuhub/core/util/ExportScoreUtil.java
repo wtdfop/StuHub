@@ -23,7 +23,7 @@ public class ExportScoreUtil {
         headers.add("小组成绩");
 
         ExcelWriter excelWriter = new ExcelWriter(path);
-        excelWriter.write(headers);
+        excelWriter.writeHeadRow(headers);
 
         ArrayList<String> row = new ArrayList<>();
         for (Group group : groups) {
@@ -34,7 +34,7 @@ public class ExportScoreUtil {
             row.add(id);
             row.add(groupName);
             row.add(score);
-            excelWriter.write(row);
+            excelWriter.writeRow(row);
         }
         excelWriter.close();
     }
